@@ -57,7 +57,7 @@ dependencies:
   # Python dependences
   - python
   - packaging
-  - numpy <2
+  - numpy
   - pandas
   - attrs
   - boto3
