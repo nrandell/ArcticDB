@@ -156,17 +156,6 @@ else()
     endif()
 
     set(PYBIND11_FINDPYTHON OFF)
+    set(PYBIND11_PYTHONLIBS_OVERWRITE OFF)
 endif()
-
-# After find_package calls for Python
-set(PYTHONLIBS_FOUND TRUE)  # Manually setting to TRUE
-# set Python_MODULE_EXTENSION based on platform
-if(WIN32)
-    set(PYTHON_MODULE_EXTENSION ".pyd")
-else()
-    set(PYTHON_MODULE_EXTENSION ".so")
-endif()
-message(AUTHOR_WARNING "Python_MODULE_EXTENSION=${PYTHON_MODULE_EXTENSION}")
-message(AUTHOR_WARNING "Python_EXECUTABLE=${PYTHON_EXECUTABLE}")
-message(AUTHOR_WARNING "PYTHONLIBS_FOUND=${PYTHONLIBS_FOUND}")
 
