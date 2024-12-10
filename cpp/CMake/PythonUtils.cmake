@@ -156,6 +156,6 @@ else()
     endif()
 
     set(PYBIND11_FINDPYTHON OFF)
-    set(PYBIND11_PYTHONLIBS_OVERWRITE OFF)
+    set(PYBIND11_USE_CROSSCOMPILING ON)
 endif()
 
