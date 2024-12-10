@@ -155,7 +155,6 @@ else()
         find_program(PYTHON_EXECUTABLE python HINTS ${Python_ROOT_DIR} PATH_SUFFIXES bin NO_CMAKE_SYSTEM_PATH)
     endif()
 
-    set(PYBIND11_FINDPYTHON OFF)
-    set(PYBIND11_NOPYTHON ON)
+    set(PYBIND11_FINDPYTHON ON)
 endif()
 
