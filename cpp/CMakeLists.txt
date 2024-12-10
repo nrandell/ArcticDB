@@ -110,15 +110,15 @@ endif()
 
 
 set(FIND_LIBRARY_USE_LIB64_PATHS ON)
-include(PythonUtils) # Must be called before Pybind (third_party) to override its finding mechanism
+# include(PythonUtils) # Must be called before Pybind (third_party) to override its finding mechanism
 
 add_subdirectory(third_party)
 add_subdirectory(proto)
 
 
-python_utils_dump_vars_if_enabled("After Pybind")
-python_utils_check_include_dirs("accepted by pybind")
-python_utils_check_version_is_as_expected()
+# python_utils_dump_vars_if_enabled("After Pybind")
+# python_utils_check_include_dirs("accepted by pybind")
+# python_utils_check_version_is_as_expected()
 
 #proto files are generated there so it's necessary to include them
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
