@@ -101,7 +101,7 @@ endfunction()
 
 # Enhanced FindPython
 if(DEFINED ARCTICDB_FIND_PYTHON_DEV_MODE)
-    message("Using supplied ARCTICDB_FIND_PYTHON_DEV_MODE=${ARCTICDB_FIND_PYTHON_DEV_MODE}.")
+    message(STATUS "Using supplied ARCTICDB_FIND_PYTHON_DEV_MODE=${ARCTICDB_FIND_PYTHON_DEV_MODE}.")
     if("${ARCTICDB_FIND_PYTHON_DEV_MODE}" STREQUAL "pybind11")
         set(ARCTICDB_FIND_PYTHON_DEV_MODE "")
     endif()
@@ -124,7 +124,7 @@ if(ARCTICDB_FIND_PYTHON_DEV_MODE)
     if(NOT Python_EXECUTABLE AND NOT Python_ROOT_DIR AND NOT Python_LIBRARY)
         # FindPython searches the PATH environment last, but that's arguably the only correct place it should look
         find_program(Python_EXECUTABLE NAMES python3 python NAMES_PER_DIR REQUIRED NO_CMAKE_SYSTEM_PATH)
-        find_program(PYTHON_EXECUTABLE NAMES python3 python NAMES_PER_DIR REQUIRED NO_CMAKE_SYSTEM_PATH)
+        set(PYTHON_EXECUTABLE ${Python_EXECUTABLE} CACHE FILEPATH "Python executable found by FindPython")
     else()
         set(Python_FIND_STRATEGY LOCATION)
     endif()
@@ -132,7 +132,23 @@ if(ARCTICDB_FIND_PYTHON_DEV_MODE)
     # Let CMake find Python without telling it the BUILD_PYTHON_VERSION we wanted. This way we know third-party stuff that
     # is not aware of BUILD_PYTHON_VERSION is going to find the same thing
     find_package(Python 3 COMPONENTS Interpreter ${ARCTICDB_FIND_PYTHON_DEV_MODE} REQUIRED)
-    find_package(PYTHON 3 COMPONENTS Interpreter ${ARCTICDB_FIND_PYTHON_DEV_MODE} REQUIRED)
+    set(PYTHON_INCLUDE_DIRS ${Python_INCLUDE_DIRS})
+        # Assuming Python_INCLUDE_DIRS is set by FindPython or similar
+        if(Python_INCLUDE_DIRS)
+        # Remove leading path separators and split by them
+        string(REGEX REPLACE "^/*" "" _shortened_path ${Python_INCLUDE_DIRS})
+        string(REPLACE "/" ";" _path_components ${_shortened_path})
+
+        # Get the last component
+        list(GET _path_components -1 _last_component)
+
+        # Set PYTHON_LIBRARIES based on the last component
+        set(PYTHON_LIBRARIES ${_last_component})
+
+        message(STATUS "PYTHON_LIBRARIES set to: ${PYTHON_LIBRARIES}")
+    else()
+        message(WARNING "Python_INCLUDE_DIRS not set, PYTHON_LIBRARIES will not be updated.")
+    endif()
     python_utils_dump_vars_if_enabled("After our FindPython before any third-party:")
 
     if(DEFINED Python_FIND_ABI)
@@ -147,7 +163,7 @@ if(ARCTICDB_FIND_PYTHON_DEV_MODE)
                 MAP_IMPORTED_CONFIG_RELWITHDEBINFO ";RELEASE"
             )
     endif()
-
+    set(PYBIND11_FINDPYTHON OFF)
 else()
     set(ARCTICDB_PYTHON_PREFIX PYTHON)
     python_utils_check_include_dirs("supplied")
