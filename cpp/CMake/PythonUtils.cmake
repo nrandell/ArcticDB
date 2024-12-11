@@ -133,22 +133,22 @@ if(ARCTICDB_FIND_PYTHON_DEV_MODE)
     # is not aware of BUILD_PYTHON_VERSION is going to find the same thing
     find_package(Python 3 COMPONENTS Interpreter ${ARCTICDB_FIND_PYTHON_DEV_MODE} REQUIRED)
     set(PYTHON_INCLUDE_DIRS ${Python_INCLUDE_DIRS})
-        # Assuming Python_INCLUDE_DIRS is set by FindPython or similar
-        if(Python_INCLUDE_DIRS)
-        # Remove leading path separators and split by them
-        string(REGEX REPLACE "^/*" "" _shortened_path ${Python_INCLUDE_DIRS})
-        string(REPLACE "/" ";" _path_components ${_shortened_path})
+    # # Assuming Python_INCLUDE_DIRS is set by FindPython or similar
+    # if(Python_INCLUDE_DIRS)
+    #     # Remove leading path separators and split by them
+    #     string(REGEX REPLACE "^/*" "" _shortened_path ${Python_INCLUDE_DIRS})
+    #     string(REPLACE "/" ";" _path_components ${_shortened_path})
 
-        # Get the last component
-        list(GET _path_components -1 _last_component)
+    #     # Get the last component
+    #     list(GET _path_components -1 _last_component)
 
-        # Set PYTHON_LIBRARIES based on the last component
-        set(PYTHON_LIBRARIES ${_last_component})
+    #     # Set PYTHON_LIBRARIES based on the last component
+    #     set(PYTHON_LIBRARIES ${_last_component})
 
-        message(STATUS "PYTHON_LIBRARIES set to: ${PYTHON_LIBRARIES}")
-    else()
-        message(WARNING "Python_INCLUDE_DIRS not set, PYTHON_LIBRARIES will not be updated.")
-    endif()
+    #     message(STATUS "PYTHON_LIBRARIES set to: ${PYTHON_LIBRARIES}")
+    # else()
+    #     message(WARNING "Python_INCLUDE_DIRS not set, PYTHON_LIBRARIES will not be updated.")
+    # endif()
     python_utils_dump_vars_if_enabled("After our FindPython before any third-party:")
 
     if(DEFINED Python_FIND_ABI)
