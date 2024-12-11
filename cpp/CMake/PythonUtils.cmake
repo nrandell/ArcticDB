@@ -155,6 +155,13 @@ else()
         find_program(PYTHON_EXECUTABLE python HINTS ${Python_ROOT_DIR} PATH_SUFFIXES bin NO_CMAKE_SYSTEM_PATH)
     endif()
 
+    set(ARCTICDB_PYTHON_PREFIX Python)
+    python_utils_check_include_dirs("supplied")
+
+    if(NOT Python_EXECUTABLE)
+        find_program(Python_EXECUTABLE python3 HINTS ${Python_ROOT_DIR} PATH_SUFFIXES bin NO_CMAKE_SYSTEM_PATH)
+    endif()
+
     set(PYBIND11_FINDPYTHON OFF)
 endif()
 
